@@ -15,8 +15,8 @@ public class Princesa {
 	private boolean enElAire;  //Estado de salto
 	
 	private static final int GRAVEDAD = 1;
-	private static final int IMPULSO_SALTO = -15;
-	private static final int SUELO_Y = 520;
+	private static final int IMPULSO_SALTO = -17;
+	private static final int SUELO_Y = 530;
 	
 	
 	public Princesa(int x, int y, int ancho, int alto) {

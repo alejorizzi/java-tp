@@ -1,6 +1,8 @@
 package juego;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import entorno.Entorno;
@@ -8,22 +10,57 @@ import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
-	private Entorno entorno;	
-
+	private Entorno entorno;
+	
+	//Mejorar BLOQUES
+	 private List<Bloque> filaBloques;
 	// Variables y métodos propios de cada grupo
 	// ...
 	private Princesa princesa;
+
 
 	Juego() {
 		Random rand = new Random();
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, " Super Elizabeth Sis, Volcano Edition - Grupo ... - v1", 800, 600);
+		
+		//Mejorar  (FILA BLOQUES)
+		this.filaBloques = new ArrayList<>();
+		
+		int cantidadFilas = 5;
+        int alturaEntreFilas = 120; // Altura entre cada fila de cuadrados
+        int y = 100; // Altura inicial de la primera fila de cuadrados
 
+        for (int i = 0; i < cantidadFilas; i++) {
+            crearFilaBloques(y);
+            y += alturaEntreFilas; // Aumenta la altura para la próxima fila
+        }
+
+        
+        
+        
 		// Inicializar lo que haga falta para el juego
 		// ...
-		this.princesa = new Princesa(50,520,20,55);
+		this.princesa = new Princesa(this.entorno.ancho()/2,530,20,55);	
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
+	}
+
+	//Bloques
+	private void crearFilaBloques(int y) {
+		 int cantidadCuadrados = 20;
+		 int espacioEntreCuadrados = 1;
+		 int anchoCuadrado = 40;
+		 int altoCuadrado = 40;
+		 int inicioX = (entorno.ancho() - (cantidadCuadrados * (anchoCuadrado + espacioEntreCuadrados))) / 2;
+
+		 for (int i = 0; i < cantidadCuadrados; i++) {
+			 int x = inicioX + (anchoCuadrado + espacioEntreCuadrados) * i;
+			 filaBloques.add(new Bloque(x, y, anchoCuadrado, Color.RED));
+		 }
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -36,6 +73,10 @@ public class Juego extends InterfaceJuego {
 		// Procesamiento de un instante de tiempo
 		// ...
 		
+		//Mejorar BLOQUES
+		for (Bloque cuadrado : filaBloques) {
+            cuadrado.dibujar(entorno);
+		}
 		
 		//Asignacion de TECLAS PARA PRINCESA
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA) &&
@@ -53,9 +94,12 @@ public class Juego extends InterfaceJuego {
 
 		this.princesa.actualizar();
 		
-		
-		
 		this.princesa.dibujar(this.entorno);
+		
+		
+		
+		
+		
 	}
 
 	@SuppressWarnings("unused")
